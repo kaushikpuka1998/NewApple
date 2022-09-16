@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         mainPageViewModel =  ViewModelProvider(this).get(MainPageViewModel::class.java)
         mainPageViewModel.getAddsLiveDataobserver().observe(this, Observer<AddsData> {
 
-            var mp = HashMap<String,List<String>>()
+            var mp = HashMap<String,List<Opn>>()
             var v = ArrayList<String>();
             if(it!=null)
             {
@@ -67,12 +67,12 @@ class MainActivity : AppCompatActivity() {
                 {
                     facilitylist.add(data)
                     v.add(data.name)
-                    var tmp =  ArrayList<String>()
+                    var tmp =  ArrayList<Opn>()
                     for( df in data.options)
                     {
-                        tmp.add(df.name)
+                        tmp.add(df)
                     }
-                    mp.put(data.name,tmp as List<String>);
+                    mp.put(data.name,tmp as List<Opn>);
 
 
                     Log.d("GGGG", data.name)
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun printmapValue(map:HashMap<String,List<String>>)
+    private fun printmapValue(map:HashMap<String,List<Opn>>)
     {
         System.out.println("HHHHH=>"+map.toString())
     }

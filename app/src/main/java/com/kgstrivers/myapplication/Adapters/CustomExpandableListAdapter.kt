@@ -7,16 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
-import android.widget.TextView
-import com.kgstrivers.myapplication.Models.Facility
+import com.kgstrivers.myapplication.Models.Opn
 import com.kgstrivers.myapplication.R
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.childlayout.view.*
 import kotlinx.android.synthetic.main.grouplayout.view.*
 
 class CustomExpandableListAdapter internal constructor(
     private val context: Context,
     private val titleList: List<String>,
-    private val dataList: HashMap<String, List<String>>
+    private val dataList: HashMap<String, List<Opn>>
 ) : BaseExpandableListAdapter(){
     override fun getGroupCount(): Int {
         return this.titleList.size
@@ -65,6 +65,7 @@ class CustomExpandableListAdapter internal constructor(
         return convertView
     }
 
+    @SuppressLint("DiscouragedApi")
     override fun getChildView(
         groupPosition: Int,
         childPosition: Int,
@@ -73,15 +74,35 @@ class CustomExpandableListAdapter internal constructor(
         parent: ViewGroup?
     ): View {
         var convertview = convertView
-        val expandedListText = getChild(groupPosition,childPosition) as String
+        val expandedListText:Opn = getChild(groupPosition,childPosition) as Opn
         if (convertView == null) {
             val layoutInflater =
                 this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertview = layoutInflater.inflate(R.layout.childlayout, null)
         }
         val expandedListTextView = convertview!!.childtextView
-        expandedListTextView.text = expandedListText
+        val iconview  = convertview!!.iconview
 
+        expandedListTextView.text = expandedListText.name
+
+        var imageResource:Int
+        if(expandedListText.icon != "no-room")
+        {
+            val k = (expandedListText.icon+"3x")
+
+            imageResource = context.getResources().getIdentifier("drawable/"+k, null, context.getPackageName());
+
+        }
+        else{
+            val k = ("no_room"+"3x")
+
+            imageResource = context.resources.getIdentifier(
+                "@drawable/" + k.replace(".png", ""),
+                null,
+                context.packageName
+            )
+        }
+      iconview.setImageResource(imageResource)
 
         return convertview
     }
