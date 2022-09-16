@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,7 +9,12 @@
     <TextView
         android:id="@+id/facility"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_height="50dp"
+        android:text="TextView"
+        app:autoSizeMaxTextSize="24dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="2dp"
+        android:padding="10dp"
+        app:fontFamily="sans-serif-condensed" />
 
 </LinearLayout>

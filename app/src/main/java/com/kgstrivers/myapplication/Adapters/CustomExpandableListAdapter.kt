@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
+import android.widget.Toast
 import com.kgstrivers.myapplication.Models.Opn
 import com.kgstrivers.myapplication.R
 import com.squareup.picasso.Picasso
@@ -103,6 +104,9 @@ class CustomExpandableListAdapter internal constructor(
             )
         }
       iconview.setImageResource(imageResource)
+        convertview.setOnClickListener {
+            Toast.makeText(context,"Clicked:"+expandedListTextView.text,Toast.LENGTH_SHORT).show()
+        }
 
         return convertview
     }
