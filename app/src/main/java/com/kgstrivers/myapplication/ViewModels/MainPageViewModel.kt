@@ -5,9 +5,10 @@ import androidx.lifecycle.ViewModel
 import com.kgstrivers.myapplication.Models.AddsData
 import com.kgstrivers.myapplication.RetroInstance.RetroFitnstance
 import com.kgstrivers.myapplication.NnetworkInterface.RetroInterface
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import retrofit2.*
 
 
 class MainPageViewModel:ViewModel(){
@@ -31,20 +32,20 @@ class MainPageViewModel:ViewModel(){
     private fun makeretrofit() {
         val retrofitinstance = RetroFitnstance.getretroInstance().create(RetroInterface::class.java)
 
-        val allproduct = retrofitinstance.getAllProducts()
-
-        allproduct.enqueue( object: Callback<AddsData> {
-            override fun onResponse(call: Call<AddsData>, response: Response<AddsData>) {
-                val resbody = response.body()!!
 
 
-                listdata.postValue(resbody)
+
+        GlobalScope.launch (Dispatchers.IO){
+
+            val response = retrofitinstance.getAllProducts().awaitResponse()
+
+            if(response.isSuccessful)
+            {
+                listdata.postValue(response.body()!!)
             }
 
-            override fun onFailure(call: Call<AddsData>, t: Throwable) {
 
-                System.out.println("Failue");
-            }
-        })
+
+        }
     }
 }
