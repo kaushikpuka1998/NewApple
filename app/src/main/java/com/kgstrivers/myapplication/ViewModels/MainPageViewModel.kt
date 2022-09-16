@@ -1,5 +1,6 @@
 package com.kgstrivers.myapplication.ViewModels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kgstrivers.myapplication.Models.AddsData
@@ -15,6 +16,7 @@ class MainPageViewModel:ViewModel(){
 
     lateinit var listdata : MutableLiveData<AddsData>
 
+    val TAG = "MainPageViewModel"
     init{
         listdata = MutableLiveData()
     }
@@ -32,20 +34,16 @@ class MainPageViewModel:ViewModel(){
     private fun makeretrofit() {
         val retrofitinstance = RetroFitnstance.getretroInstance().create(RetroInterface::class.java)
 
-
-
-
         GlobalScope.launch (Dispatchers.IO){
 
             val response = retrofitinstance.getAllProducts().awaitResponse()
 
             if(response.isSuccessful)
             {
+
+                Log.d(TAG, response.body()!!.toString())
                 listdata.postValue(response.body()!!)
             }
-
-
-
         }
     }
 }
