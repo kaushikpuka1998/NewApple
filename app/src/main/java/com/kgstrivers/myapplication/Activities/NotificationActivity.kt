@@ -1,4 +1,5 @@
 package com.kgstrivers.myapplication.Activities
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -43,14 +44,20 @@ class NotificationActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun sendNotification(a1:String, a2:String)
     {
+        val intent = Intent(this,MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        val pIntent = PendingIntent.getActivity(this,0,intent,0)
 
         var builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.apartment2x)
             .setContentTitle(a1)
             .setContentText(a2)
+            .setContentIntent(pIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
