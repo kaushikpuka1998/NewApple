@@ -1,5 +1,6 @@
 package com.kgstrivers.myapplication.Activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -41,6 +42,10 @@ class MainActivity : AppCompatActivity() {
         initiateViewmodel()
         calldata()
 
+        notifybutton.setOnClickListener {
+            sendNotification()
+        }
+
         //val p  = printmapValue(map)
 
         //Log.d(TAG,p.toString())
@@ -54,8 +59,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initiateViewmodel()
     {
-
-
         mainPageViewModel =  ViewModelProvider(this).get(MainPageViewModel::class.java)
         mainPageViewModel.getAddsLiveDataobserver().observe(this, Observer<AddsData> {
 
@@ -73,8 +76,6 @@ class MainActivity : AppCompatActivity() {
                         tmp.add(df)
                     }
                     mp.put(data.name,tmp as List<Opn>);
-
-
                     Log.d("GGGG", data.name)
                 }
 
@@ -89,9 +90,6 @@ class MainActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()}
                 printmapValue(mp)
-//                homeadapter.productslist = it.products.toMutableList()
-//                dialog.dismiss()
-//                homeadapter.notifyDataSetChanged()
             }
             else
             {
@@ -103,5 +101,11 @@ class MainActivity : AppCompatActivity() {
     private fun printmapValue(map:HashMap<String,List<Opn>>)
     {
         System.out.println("HHHHH=>"+map.toString())
+    }
+
+    private fun sendNotification()
+    {
+        val intent = Intent(applicationContext,NotificationActivity::class.java)
+        startActivity(intent)
     }
 }
