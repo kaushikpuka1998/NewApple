@@ -5,17 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ExpandableListAdapter
-import android.widget.ExpandableListView
-import android.widget.HeterogeneousExpandableList
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.kgstrivers.myapplication.Adapters.CustomExpandableListAdapter
 import com.kgstrivers.myapplication.Models.AddsData
 import com.kgstrivers.myapplication.Models.Facility
 import com.kgstrivers.myapplication.Models.Opn
 import com.kgstrivers.myapplication.R
+import com.kgstrivers.myapplication.RoomDatabase.ResponsDatabase
 import com.kgstrivers.myapplication.ViewModels.MainPageViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -23,12 +21,9 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var  mainPageViewModel:MainPageViewModel
     lateinit var facilitylist: ArrayList<Facility>
-
-    lateinit var  childList: List<Opn>
-
-    //lateinit var map :HashMap<String,ArrayList<String>>
-
     val TAG = "MainActivity"
+
+    lateinit var responseDatabase : ResponsDatabase
 
 
     lateinit var expandableListAdapter: ExpandableListAdapter
@@ -36,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        responseDatabase = ResponsDatabase.getDataBase(applicationContext)
 
 
         facilitylist = ArrayList<Facility>()
@@ -54,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun calldata()
     {
-        mainPageViewModel.getProductList()
+        mainPageViewModel.getProductList(responseDatabase)
     }
 
     private fun initiateViewmodel()
@@ -76,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                         tmp.add(df)
                     }
                     mp.put(data.name,tmp as List<Opn>);
-                    Log.d("GGGG", data.name)
+                    Log.d(TAG, data.name)
                 }
 
                 customExpandableListAdapter = CustomExpandableListAdapter(this,v,mp)

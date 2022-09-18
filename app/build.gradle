@@ -72,4 +72,14 @@ dependencies {
     // https://mvnrepository.com/artifact/com.squareup.okhttp/okhttp
     implementation group: 'com.squareup.okhttp', name: 'okhttp', version: '2.7.5'
     implementation group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: '5.0.0-alpha.6'
+
+    implementation("androidx.room:room-runtime:2.4.3")
+
+    annotationProcessor("androidx.room:room-compiler:2.4.3")
+
+    implementation 'androidx.room:room-ktx:2.4.3'
+
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:2.4.3")
 }
